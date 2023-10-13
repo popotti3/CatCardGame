@@ -15,7 +15,7 @@ const enemyCard ={
   
 };
 
-const createCaed = index =>({
+const createCard = index =>({
   image: 'http://placekitten.com/120/100?image='+ index,
   stats:[{name:'Cutenes かわいさ', value: getRandomInt(1,100)},
           {name:'Weight 重さ',value:getRandomInt(1,100)},
@@ -24,13 +24,23 @@ const createCaed = index =>({
   id:crypto.randomUUID()
 })
 
+const deck = Array(16).fill(null).map((_,index) => createCard(index));
+const half = Math.ceil(deck.length / 2);
+const dealCards = () => {
 
+  return{
+    player: deck.slice(0,half),
+    opponent: deck.slice(half)
+  };
+
+};
 export default function app(){
   const [result, setResult] = useState('');
+  const[cards, setCards] = useState(dealCards)
   function compareCards(){
 
-    const playerStat = playerCard.stats[0];
-    const opponentStat = enemyCard.stats[0];
+    const playerStat = cards.player[0].stats[0];
+    const opponentStat = cards.opponent[0].stats[0];
 
    
 
@@ -53,9 +63,16 @@ export default function app(){
     <>
     <h1>Hello world</h1>
     <div className='game'>
-    
       
-      <Card card = {playerCard}/>
+      <ul className='card-list'>
+          {cards.player.map(pCard =>(
+            <li className="card-list-item player" key={pCard.id}>
+                <Card card = {pCard}/>
+
+            </li>
+          ))}
+      </ul>
+      
       <div className="center-area">
         <p>{result || 'Press the button'}</p>
             <button onClick={compareCards}type="button">Play</button>
@@ -63,9 +80,10 @@ export default function app(){
    
       
       
-      <Card card = {enemyCard}/>
+      <Card card = {cards.opponent[0]}/>
    
     </div>
+    {console.log(dealCards())}
   </>
   );
 }
