@@ -13,6 +13,10 @@
     padding: 0 8px;
 }
 
+.card-list.opponent{
+direction: rtl;
+}
+
 .stats-list-item{
     list-style: none;
     display: flex;
@@ -34,4 +38,14 @@
     text-align: center;
     align-self: center;
     min-width: 10vw;
+}
+
+.card-list-item.player{
+    margin-left: calc(2vw - 140px);
+
+}
+
+.card-list-item.opponent{
+    margin-right: calc(2vw - 140px);
+    direction: ltr;
 }

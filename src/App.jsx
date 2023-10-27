@@ -80,7 +80,14 @@ export default function app(){
    
       
       
-      <Card card = {cards.opponent[0]}/>
+      <ul className='card-list opponent'>
+          {cards.opponent.map(oCard =>(
+            <li className="card-list-item opponent" key={oCard.id}>
+                <Card card = {oCard}/>
+
+            </li>
+          ))}
+      </ul>
    
     </div>
     {console.log(dealCards())}
