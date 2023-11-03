@@ -6,7 +6,10 @@
     border: 4px solid pink;
     box-shadow: 1px 1px 4px 1px rgb(0, 0, 12);
 
+}
 
+.card.back{
+    background-color: aqua;
 }
 .stats-list{
     margin: 0;
@@ -30,7 +33,10 @@ direction: rtl;
     gap: 10px;
 }
 
-
+.card-list{
+    display: flex;
+    flex-direction: row-reverse;
+}
 
 
 
