@@ -1,7 +1,7 @@
 .card{
     width:120px;
     height: 300px;
-    background-color: rgb(235, 10, 47);
+    background-color: pink;
     border-radius: 8px;
     border: 4px solid pink;
     box-shadow: 1px 1px 4px 1px rgb(0, 0, 12);
@@ -64,3 +64,13 @@ direction: rtl;
     font-weight: bold;
 }
 
+.stat-list-item.selected{
+    outline: 1px solid black;
+    background-color: blueviolet;
+}
+
+
+.card-list-item.player .stat-list-item:hover{
+    outline: 5px dashed violet;
+    background-color: blue;
+}

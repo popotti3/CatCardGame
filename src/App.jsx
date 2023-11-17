@@ -61,8 +61,8 @@ export default function app(){
  
 
 
-    const playerStat = cards.player[0].stats[0];
-    const opponentStat = cards.opponent[0].stats[0];
+    const playerStat = cards.player[0].stats[selectedStat];
+    const opponentStat = cards.opponent[0].stats[selectedStat];
 
    
 
@@ -111,7 +111,11 @@ export default function app(){
     setGameState('Play');
     setResult('');
   }
-
+  function restartGame(){
+    setCards(dealCards);
+    setResult('');
+    setGameState('Play');
+  }
 
   return(
     <>
@@ -121,7 +125,7 @@ export default function app(){
       <ul className='card-list'>
           {cards.player.map((pCard, index) =>(
             <li className="card-list-item player" key={pCard.id}>
-                <Card card = {index === 0 ? pCard : null}/>
+                <Card card = {index === 0 ? pCard : null}handleSelect={statIndex => gameState === 'Play' && setSelectedStat(statIndex)}selectStat={selectedStat}/>
 
             </li>
           ))}
