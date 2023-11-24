@@ -7,20 +7,20 @@ const getRandomInt = (min,max) => Math.floor(Math.random() * (max - min + 1) + m
 
 const playerCard ={
   image: 'http://placekitten.com/120/100?image='+getRandomInt(0,15),
-  stats:[{name:'Cutenes かわいさ', value: getRandomInt(1,100)},{ name:'Weight 重さ',value:getRandomInt(1,100)},{name:'Speed スピード', value: getRandomInt(1,100)}]
+  stats:[{name:'Cutenes かわいさ', value: getRandomInt(1,10)},{ name:'Weight 重さ',value:getRandomInt(1,10)},{name:'Speed スピード', value: getRandomInt(1,10)}]
  
 };
 const enemyCard ={
   image: 'http://placekitten.com/120/100?image='+getRandomInt(0,15),
-  stats:[{name:'Cutenes かわいさ', value: getRandomInt(1,100)},{ name:'Weight 重さ',value: getRandomInt(1,100)},{name:'Speed スピード', value: getRandomInt(1,100)}]
+  stats:[{name:'Cutenes かわいさ', value: getRandomInt(1,10)},{ name:'Weight 重さ',value: getRandomInt(1,10)},{name:'Speed スピード', value: getRandomInt(1,10)}]
   
 };
 
 const createCard = index =>({
   image: 'http://placekitten.com/120/100?image='+ index,
-  stats:[{name:'Cutenes かわいさ', value: getRandomInt(1,100)},
-          {name:'Weight 重さ',value:getRandomInt(1,100)},
-          {name:'Speed スピード', value: getRandomInt(1,10-0)}],
+  stats:[{name:'Cutenes かわいさ', value: getRandomInt(1,10)},
+          {name:'Weight 重さ',value:getRandomInt(1,10)},
+          {name:'Speed スピード', value: getRandomInt(1,10)}],
  
   id:crypto.randomUUID()
 })
@@ -52,6 +52,14 @@ export default function app(){
   const[gameState, setGameState] = useState('Play')
   const[selectedStat, setSelectedStat] = useState(0);
  
+  if (gameState !== 'game_over' && (!cards.opponent.length || !cards.player.length)){
+    setResult(()=>{
+      if(!cards.opponent.length) return 'Player win';
+      else if(!cards.player.length) return 'Player loss';
+      return 'Draw';
+    });
+    setGameState('game_over')
+  }
 
   function compareCards(){
 
@@ -116,27 +124,34 @@ export default function app(){
     setResult('');
     setGameState('Play');
   }
+  <h1>Hello world</h1>
 
   return(
     <>
-    <h1>Hello world</h1>
     <div className='game'>
-      
-      <ul className='card-list'>
-          {cards.player.map((pCard, index) =>(
-            <li className="card-list-item player" key={pCard.id}>
-                <Card card = {index === 0 ? pCard : null}handleSelect={statIndex => gameState === 'Play' && setSelectedStat(statIndex)}selectStat={selectedStat}/>
 
-            </li>
-          ))}
-      </ul>
+      <div className="hand player">
+        <h2>Player</h2>
+        <ul className='card-list'>
+            {cards.player.map((pCard, index) =>(
+              <li className="card-list-item player" key={pCard.id}>
+                  <Card card = {index === 0 ? pCard : null}handleSelect={statIndex => gameState === 'Play' && setSelectedStat(statIndex)}selectStat={selectedStat}/>
+
+              </li>
+            ))}
+        </ul>
+      </div>
       
       <div className="center-area">
         <p>{result || 'Press the button'}</p>
         {
           gameState === 'Play'?(
             <PlayButton text={'Play'} handleClick={compareCards}/>
-          ) : (
+          )
+          : gameState === 'game_over' ?
+          (<PlayButton text={'Restart'} handleClick={restartGame}/>)
+          :
+          (
             <PlayButton text={'Next'} handleClick={nextRound}/>
           )
         }
@@ -144,15 +159,18 @@ export default function app(){
       </div>
    
       
-      
-      <ul className='card-list opponent'>
-          {cards.opponent.map(oCard =>(
-            <li className="card-list-item opponent" key={oCard.id}>
-                <Card card = {oCard}/>
+      <div className="hand">
+        <h2>opponent</h2>
+        <ul className='card-list opponent'>
+            {cards.opponent.map((oCard, index) =>(
+              <li className="card-list-item opponent" key={oCard.id}>
+                  <Card card = {result && index === 0 ? oCard : null}/>
 
-            </li>
-          ))}
-      </ul>
+              </li>
+            ))}
+        </ul>
+      </div>
+      
    
     </div>
     {console.log(dealCards())}
